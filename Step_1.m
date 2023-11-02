@@ -8,12 +8,16 @@ alpha = 2; % Alpha value for frequency calculation
 n_values = [-9, -7, -5, -4]; % Corresponding values for n
 notes = {'DO', 'RE', 'MI', 'FA'};
 
-% Create a matrix to store signals with length of time vector as rows & couluns as no. of notes
-x = zeros(length(t), length(notes));  
+% Create a matrix to store signals with the length of the time vector as rows and columns as the number of notes
+x = zeros(length(t), length(notes));
+
+% Create a variable to store individual energies
+energies = zeros(1, length(notes));
 
 for i = 1:4
-    fn = f0 * (alpha ^(n_values(i)/12)); % Calculate the frequency
+    fn = f0 * (alpha ^ (n_values(i) / 12)); % Calculate the frequency
     x(:, i) = cos(2 * pi * fn * t); % Generate and store the signal in the matrix
+    energies(i) = integral(@(t) (cos(2 * pi * fn * t)).^2, 0,0.5 ); % Calculate the energy for each note using the integral function
 end
 
 % Plot the signals
@@ -29,9 +33,7 @@ end
 combined_signal = reshape(x, 1, []); % Reshape the matrix to a row vector
 sound(combined_signal, fs);
 
-% Save the combined signal as an audio file
-audiowrite('combined_notes.wav', combined_signal, fs);
-
-energy_x = sum(combined_signal.^2); % Energy is the sum of squared samples
+% Calculate the total energy of the combined signal
+energy_x = sum(energies);
 
 fprintf('Energy of the combined signal: %f\n', energy_x);
