@@ -31,3 +31,7 @@ sound(combined_signal, fs);
 
 % Save the combined signal as an audio file
 audiowrite('combined_notes.wav', combined_signal, fs);
+
+energy_x = sum(combined_signal.^2); % Energy is the sum of squared samples
+
+fprintf('Energy of the combined signal: %f\n', energy_x);
