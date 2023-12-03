@@ -75,3 +75,11 @@ y1 = filter(b, a, combined_signal);
 
 %step 11
 audiowrite('y1.wav',y1,fs);
+
+%step 12
+t_y1 = linspace(0, length(y1)/fs, length(y1));
+figure;
+plot(t_y1, y1);
+title('Filtered Signal y1(t)');
+xlabel('Time (s)');
+ylabel('Amplitude');
