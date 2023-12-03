@@ -59,3 +59,10 @@ ylabel('Magnitude');
 % Calculate the energy of the FFT-transformed signal
 energy_fft = sum(abs(fft_signal).^2) / (2 * fs) / fs;
 disp(['Energy of the FFT-transformed signal: ', num2str(energy_fft)]);
+
+% Step 8
+filter_order = 20;
+% since Mi frequency starts at 329 it would be suitable to cutoff frequency
+% at 300
+cutoff = 300/(fs/2);
+[b, a] = butter(filter_order, cutoff, 'low');
