@@ -73,4 +73,5 @@ freqz(b,a,[],fs)
 %step 10
 y1 = filter(b, a, combined_signal);
 
-
+%step 11
+audiowrite('y1.wav',y1,fs);
