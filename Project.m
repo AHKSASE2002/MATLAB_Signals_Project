@@ -88,4 +88,5 @@ ylabel('Amplitude');
 y1_energy = sum(y1.^2)/fs;
 disp(['Energy of y1 signal: ',num2str(y1_energy)]);
 
-
+%step 14
+fft_y1 = fft(y1);
