@@ -67,4 +67,5 @@ filter_order = 20;
 cutoff = (300/(fs/2));
 [b, a] = butter(filter_order, cutoff);
 
-
+% Step 9
+freqz(b,a,[],fs)
