@@ -1,5 +1,5 @@
 % Define constants
-fs = 44100; % Sampling frequency (Hz)
+fs = 1000; % Sampling frequency (Hz)
 t = 0:1/fs:0.5; % Time vector for half a second
 f0 = 440; % Base frequency for DO
 alpha = 2; % Alpha value for frequency calculation
@@ -64,5 +64,7 @@ disp(['Energy of the FFT-transformed signal: ', num2str(energy_fft)]);
 filter_order = 20;
 % since Mi frequency starts at 329 it would be suitable to cutoff frequency
 % at 300
-cutoff = 300/(fs/2);
-[b, a] = butter(filter_order, cutoff, 'low');
+cutoff = (300/(fs/2));
+[b, a] = butter(filter_order, cutoff);
+
+
