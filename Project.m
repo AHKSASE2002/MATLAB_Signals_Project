@@ -89,4 +89,18 @@ y1_energy = sum(y1.^2)/fs;
 disp(['Energy of y1 signal: ',num2str(y1_energy)]);
 
 %step 14
+N_y1 = length(y1);
 fft_y1 = fft(y1);
+
+%step 15
+two_sided_spectrum_y1 = abs(fft_y1 / N_y1);
+one_sided_spectrum_y1 = two_sided_spectrum_y1(1:N_y1/2+1);
+f_y1 = fs * (0:(N_y1/2)) / N_y1;
+
+% Step 15: Plot the magnitude of the frequency spectrum of the filtered signal
+figure;
+plot(f_y1, abs(one_sided_spectrum_y1));
+title('Magnitude Spectrum of Filtered Signal y1(t)');
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+xlim([-fs/2, fs/2]);
