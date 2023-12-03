@@ -104,3 +104,8 @@ title('Magnitude Spectrum of Filtered Signal y1(t)');
 xlabel('Frequency (Hz)');
 ylabel('Magnitude');
 xlim([-fs/2, fs/2]);
+
+%step 16
+energy_y1_frequency_domain = sum(abs(fft_y1).^2) / (2*fs) / fs;
+disp(['Energy of y1 signal in frequency domain: ',num2str(energy_y1_frequency_domain)]);
+
