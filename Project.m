@@ -69,3 +69,8 @@ cutoff = (300/(fs/2));
 
 % Step 9
 freqz(b,a,[],fs)
+
+%step 10
+y1 = filter(b, a, combined_signal);
+
+
