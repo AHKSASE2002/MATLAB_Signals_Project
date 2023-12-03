@@ -86,6 +86,4 @@ ylabel('Amplitude');
 
 %step 13
 y1_energy = sum(y1.^2)/fs;
-disp(['Energy of y1 signal: ',num2str(y1_energy)]);
-
-
+disp(["Ene",y1_energy]);
