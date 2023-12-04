@@ -33,7 +33,7 @@ end
 
 % Play the signals sequentially
 combined_signal = reshape(x, 1, []); % Reshape the matrix to a row vector
-audiowrite('X.wav', combined_signal, fs);
+audiowrite('Combined_Wave.wav', combined_signal, fs);
 
 % Calculate the total energy of the combined signal
 energy_x = sum(combined_signal.^2) / fs;
@@ -65,7 +65,7 @@ filter_order = 20;
 % since Mi frequency starts at 329 it would be suitable to cutoff frequency
 % at 300
 cutoff = (300/(fs/2));
-[b, a] = butter(filter_order, cutoff);
+[b, a] = butter(filter_order, cutoff,"low");
 
 % Step 9
 freqz(b,a,[],fs)
@@ -74,7 +74,7 @@ freqz(b,a,[],fs)
 y1 = filter(b, a, combined_signal);
 
 %step 11
-audiowrite('y1.wav',y1,fs);
+audiowrite('Low_Pass_Filter.wav',y1,fs);
 
 %step 12
 t_y1 = linspace(0, length(y1)/fs, length(y1));
@@ -108,4 +108,57 @@ xlim([-fs/2, fs/2]);
 %step 16
 energy_y1_frequency_domain = sum(abs(fft_y1).^2) / (2*fs) / fs;
 disp(['Energy of y1 signal in frequency domain: ',num2str(energy_y1_frequency_domain)]);
+
+%step 17
+cutoff_2 = (329/(fs/2));
+[c,d] = butter(filter_order,cutoff_2, "high");
+
+%step 18
+freqz(c,d,[],fs);
+
+%step 19
+y2 = filter(c,d,combined_signal);
+
+%step 20
+audiowrite('High_Pass_Filter.wav',y2,fs);
+
+%step 21
+t_y2 = linspace(0, length(y2)/fs, length(y2));
+figure;
+plot(t_y2, y2);
+title('Filtered Signal y2(t)');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+% step 22
+y2_energy = sum(y2.^2)/fs;
+disp(['Energy of y2 signal: ',num2str(y2_energy)]);
+
+% step 23
+N_y2 = length(y2);
+fft_y2 = fft(y2);
+
+% step 24
+two_sided_spectrum_y2 = abs(fft_y2 / N_y2);
+one_sided_spectrum_y2 = two_sided_spectrum_y1(1:N_y2/2+1);
+f_y2 = fs * (0:(N_y2/2)) / N_y2;
+
+% step 24
+figure;
+plot(f_y2, abs(one_sided_spectrum_y2));
+title('Magnitude Spectrum of Filtered Signal y2(t)');
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+xlim([-fs/2, fs/2]);
+
+% step 25
+energy_y2_frequency_domain = sum(abs(fft_y2).^2) / (2*fs) / fs;
+disp(['Energy of y2 signal in frequency domain: ',num2str(energy_y2_frequency_domain)]);
+
+
+
+
+
+
+
 
