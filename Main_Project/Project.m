@@ -54,13 +54,9 @@ figure;
 plot(f, one_sided_spectrum);
 title('Frequency Spectrum of the Combined Signal');
 xlabel('Frequency (Hz)');
-ylabel('Magnitude');
-
-% Calculate the energy of the FFT-transformed signal
+ylabel('Magnitude');% Calculate the energy of the FFT-transformed signal
 energy_fft = sum(abs(fft_signal).^2) / (2 * fs) / fs;
-disp(['Energy of the FFT-transformed signal: ', num2str(energy_fft)]);
-
-% Step 8
+disp(['Energy of the FFT-transformed signal: ', num2str(energy_fft)]);% Step 8
 filter_order = 20;
 % since Mi frequency starts at 329 it would be suitable to cutoff frequency
 % at 300
@@ -144,9 +140,15 @@ one_sided_spectrum_y2 = two_sided_spectrum_y1(1:N_y2/2+1);
 f_y2 = fs * (0:(N_y2/2)) / N_y2;
 
 % step 24
+
+% Combine the frequency spectra for y1 and y2
+combined_one_sided_spectrum = [one_sided_spectrum_y1, one_sided_spectrum_y2];
+combined_frequencies = [-fs/2 + f_y1, f_y2];
+
+% Plot the combined frequency spectrum
 figure;
-plot(f_y2, abs(one_sided_spectrum_y2));
-title('Magnitude Spectrum of Filtered Signal y2(t)');
+plot(combined_frequencies, abs(combined_one_sided_spectrum));
+title('Combined Magnitude Spectrum of Filtered Signals');
 xlabel('Frequency (Hz)');
 ylabel('Magnitude');
 xlim([-fs/2, fs/2]);
@@ -154,11 +156,3 @@ xlim([-fs/2, fs/2]);
 % step 25
 energy_y2_frequency_domain = sum(abs(fft_y2).^2) / (2*fs) / fs;
 disp(['Energy of y2 signal in frequency domain: ',num2str(energy_y2_frequency_domain)]);
-
-
-
-
-
-
-
-
