@@ -16,7 +16,7 @@ energies = zeros(1, length(notes));
 
 % Create the combined signal
 combined_signal = [];
-
+    
 for i = 1:4
     fn = f0 * (alpha ^ (n_values(i) / 12)); % Calculate the frequency
     x(:, i) = cos(2 * pi * fn * t); % Generate and store the signal in the matrix
@@ -92,6 +92,8 @@ fft_y1 = fft(y1);
 two_sided_spectrum_y1 = abs(fft_y1 / N_y1);
 one_sided_spectrum_y1 = two_sided_spectrum_y1(1:N_y1/2+1);
 f_y1 = fs * (0:(N_y1/2)) / N_y1;
+yf1 = abs(fftshift(fft_y1)); 
+f_y1_full = linspace(-fs/2, fs/2, length(yf1));
 
 % Step 15: Plot the magnitude of the frequency spectrum of the filtered signal
 figure;
@@ -99,7 +101,7 @@ plot(f_y1, abs(one_sided_spectrum_y1));
 title('Magnitude Spectrum of Filtered Signal y1(t)');
 xlabel('Frequency (Hz)');
 ylabel('Magnitude');
-xlim([-fs/2, fs/2]);
+xlim([0, fs/2]);
 
 %step 16
 energy_y1_frequency_domain = sum(abs(fft_y1).^2) / (2*fs) / fs;
@@ -137,7 +139,8 @@ fft_y2 = fft(y2);
 % step 24
 two_sided_spectrum_y2 = abs(fft_y2 / N_y2);
 one_sided_spectrum_y2 = two_sided_spectrum_y1(1:N_y2/2+1);
-f_y2 = fs * (0:(N_y2/2)) / N_y2;
+yf2 = abs(fftshift(fft_y2)); % Fourier Transform and shift
+f_y2 = linspace(-fs/2, fs/2, length(yf2)); % Frequency vector
 
 % step 24
 
@@ -145,13 +148,32 @@ f_y2 = fs * (0:(N_y2/2)) / N_y2;
 combined_one_sided_spectrum = [one_sided_spectrum_y1, one_sided_spectrum_y2];
 combined_frequencies = [-fs/2 + f_y1, f_y2];
 
-% Plot the combined frequency spectrum
+% Plot the Frequency Spectrum of All Signals Together
 figure;
-plot(combined_frequencies, abs(combined_one_sided_spectrum));
-title('Combined Magnitude Spectrum of Filtered Signals');
+plot(f_original, yf_original, 'DisplayName', 'Original');
+title('Combined Frequency Spectrum of All Signals');
 xlabel('Frequency (Hz)');
 ylabel('Magnitude');
-xlim([-fs/2, fs/2]);
+axis([-fs/2 fs/2 -inf inf]); % Set axis limits
+
+% Plot the frequency spectrum of y1(f) across the full range
+figure;
+plot(f_y1_full, yf1);
+title('Frequency Spectrum of Filtered Signal y1(f)');
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+axis([-fs/2 fs/2 -inf inf]); % Set axis limits
+grid on;
+
+% Plot the Filtered Signal y2(f) frequency spectrum
+figure;
+plot(f_y2, yf2);
+title('Frequency Spectrum of Filtered Signal y2(f)');
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+axis([-fs/2 fs/2 -inf inf]); % Set axis limits
+grid on;
+
 
 % step 25
 energy_y2_frequency_domain = sum(abs(fft_y2).^2) / (2*fs) / fs;
